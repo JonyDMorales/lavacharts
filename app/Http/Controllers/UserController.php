@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UserChangePasswordRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\User;
+use App\FiltradoEventos;
 use App\Http\Requests\UserRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -302,19 +303,43 @@ class UserController extends Controller{
      */
 
     function home(){
+        $pri = $this->eventosGasto('PRI-PVEM-PANAL');
+        $pan = $this->eventosGasto('PAN-PRD-MC');
+        $morena = $this->eventosGasto('MORENA-PT-PES');
         $lava = new Lavacharts;
         $reasons = $lava->DataTable();
 
-        $reasons->addStringColumn('Reasons')
-            ->addNumberColumn('Percent')
-            ->addRow(['Check Reviews', 20])
-            ->addRow(['Watch Trailers', 20])
-            ->addRow(['See Actors Other Work', 20])
-            ->addRow(['Settle Argument', 30]);
+        $reasons->addStringColumn('Partido')
+            ->addNumberColumn('Gasto')
+            ->addRow(['MORENA-PT-PES', $morena])
+            ->addRow(['PRI-PVEM-PANAL', $pri])
+            ->addRow(['PAN-PRD-MC', $pan]);
 
-        $lava->DonutChart('IMDB', $reasons, [
-            'title' => 'Reasons I visit IMDB'
-        ]);
+        $lava->DonutChart('Eventos', $reasons, ['title' => 'Gasto Total',
+            'pieHole' => 0.40,
+            //'legend' => [ 'position' => 'top'],
+            'colors' => ['#B3282B', '#008F36', '#063383'],
+            'titleTextStyle' => [
+                'fontName' => 'Arial',
+                'fontColor' => 'black',
+                'fontSize' => 30,
+            ],
+            'height' => 900]);
         return view('admin.dashboard.home', ["lava" => $lava]);
+    }
+
+    function eventosGasto($partido){
+        $gasto = 0.0;
+        try{
+            $precios = FiltradoEventos::project([ 'precio' => 1])->where('partido',$partido)->get();
+            foreach ($precios as $precio){
+                $gasto += $precio->precio;
+            }
+        } catch (ModelNotFoundException $e)
+        {
+            return $gasto;
+        }
+
+        return $gasto;
     }
 }
