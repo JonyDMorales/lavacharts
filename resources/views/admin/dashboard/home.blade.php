@@ -12,7 +12,6 @@
             <h2>Tierra</h2>
             <hr>
         </div>
-
     </div>
 
     <?= $lava->render('DonutChart', 'Eventos', 'chart-div') ?>

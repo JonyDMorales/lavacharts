@@ -303,17 +303,17 @@ class UserController extends Controller{
      */
 
     function home(){
-        $pri = $this->eventosGasto('PRI-PVEM-PANAL');
-        $pan = $this->eventosGasto('PAN-PRD-MC');
-        $morena = $this->eventosGasto('MORENA-PT-PES');
+        $pri = $this->eventosGasto(['PRI', 'PVEM','PANAL']);
+        $pan = $this->eventosGasto(['PAN','PRD','MC']);
+        $morena = $this->eventosGasto(['MORENA','PT','PES']);
         $lava = new Lavacharts;
         $reasons = $lava->DataTable();
 
         $reasons->addStringColumn('Partido')
             ->addNumberColumn('Gasto')
-            ->addRow(['MORENA-PT-PES', $morena])
-            ->addRow(['PRI-PVEM-PANAL', $pri])
-            ->addRow(['PAN-PRD-MC', $pan]);
+            ->addRow(['MORENA-PT-PES', $morena->precio])
+            ->addRow(['PRI-PVEM-PANAL', $pri->precio])
+            ->addRow(['PAN-PRD-MC', $pan->precio]);
 
         $lava->DonutChart('Eventos', $reasons, ['title' => 'Gasto Total',
             'pieHole' => 0.40,
@@ -328,12 +328,19 @@ class UserController extends Controller{
         return view('admin.dashboard.home', ["lava" => $lava]);
     }
 
-    function eventosGasto($partido){
-        $gasto = 0.0;
+    function eventosGasto($partidos){
+        $gasto = [ 'precio' => 0.0, 'presidente' => 0.0, 'senador' => 0.0, 'diputado_federal' => 0.0, 'diputado_local' => 0.0, 'alcalde' => 0.0, 'partido' => 0.0];
         try{
-            $precios = FiltradoEventos::project([ 'precio' => 1])->where('partido',$partido)->get();
+            $precios = FiltradoEventos::project([ 'precio' => 1,
+                                                'precio_presidente' => 1,
+                                                'precio_senador' => 1,
+                                                'precio_gobernador' => 1,
+                                                'precio_diputadoFederal' => 1,
+                                                'precio_diputadoLocal' => 1,
+                                                'precio_alcalde' => 1,
+                                                'precio_partido' => 1])->where('partido', 'all', $partidos)->get();
             foreach ($precios as $precio){
-                $gasto += $precio->precio;
+                $gasto->precio += $precio->precio;
             }
         } catch (ModelNotFoundException $e)
         {
