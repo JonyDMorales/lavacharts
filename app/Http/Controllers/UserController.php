@@ -303,19 +303,20 @@ class UserController extends Controller{
      */
 
     function home(){
-        $pri = $this->eventosGasto(['PRI', 'PVEM','PANAL']);
-        $pan = $this->eventosGasto(['PAN','PRD','MC']);
-        $morena = $this->eventosGasto(['MORENA','PT','PES']);
-        $lava = new Lavacharts;
-        $reasons = $lava->DataTable();
+        $pri = $this->eventosConteoGasto('/.*PRI|PVEM|PANAL/i');
+        $pan = $this->eventosConteoGasto('/.*PAN|PRD|MC/i');
+        $morena = $this->eventosConteoGasto('/.*MORENA|PT|PES/i');
 
-        $reasons->addStringColumn('Partido')
+        $gasto = new Lavacharts;
+        $grafica = $gasto->DataTable();
+
+        $grafica->addStringColumn('Partido')
             ->addNumberColumn('Gasto')
-            ->addRow(['MORENA-PT-PES', $morena->precio])
-            ->addRow(['PRI-PVEM-PANAL', $pri->precio])
-            ->addRow(['PAN-PRD-MC', $pan->precio]);
+            ->addRow(['MORENA-PT-PES', $morena['precio']])
+            ->addRow(['PRI-PVEM-PANAL', $pri['precio']])
+            ->addRow(['PAN-PRD-MC', $pan['precio']]);
 
-        $lava->DonutChart('Eventos', $reasons, ['title' => 'Gasto Total',
+        $gasto= \Lava::DonutChart('Gasto de Eventos', $grafica, ['title' => 'Gasto Total',
             'pieHole' => 0.40,
             //'legend' => [ 'position' => 'top'],
             'colors' => ['#B3282B', '#008F36', '#063383'],
@@ -324,23 +325,37 @@ class UserController extends Controller{
                 'fontColor' => 'black',
                 'fontSize' => 30,
             ],
-            'height' => 900]);
-        return view('admin.dashboard.home', ["lava" => $lava]);
+            'height' => 300]);
+
+        $conteo = new Lavacharts;
+
+        $grafic  = $conteo->DataTable();
+
+        $grafic->addStringColumn('Partido')
+            ->addNumberColumn('Cantidad de eventos')
+            ->addRoleColumn('string', 'style')
+            ->addRow(['MORENA-PT-PES', $morena['conteo'], 'color:#B3282B'])
+            ->addRow(['PRI-PVEM-PANAL', $pri['conteo']],'color:#008F36' )
+            ->addRow(['PAN-PRD-MC', $pan['conteo'], 'color:#063383']);
+
+        $conteo = \Lava::BarChart('Conteo de Eventos', $grafic, [ 'title' => 'Conteo de Eventos',
+            'titleTextStyle' => [
+                'fontName' => 'Arial',
+                'fontColor' => 'black',
+                'fontSize' => 30,
+            ],
+            'height' => 300]);
+
+        return view('admin.dashboard.home', ['conteo' => $conteo], ['gasto' => $gasto]);
     }
 
-    function eventosGasto($partidos){
-        $gasto = [ 'precio' => 0.0, 'presidente' => 0.0, 'senador' => 0.0, 'diputado_federal' => 0.0, 'diputado_local' => 0.0, 'alcalde' => 0.0, 'partido' => 0.0];
+    function eventosConteoGasto($partidos){
+        $gasto = array( 'precio' => 0, 'conteo' => 0);
         try{
-            $precios = FiltradoEventos::project([ 'precio' => 1,
-                                                'precio_presidente' => 1,
-                                                'precio_senador' => 1,
-                                                'precio_gobernador' => 1,
-                                                'precio_diputadoFederal' => 1,
-                                                'precio_diputadoLocal' => 1,
-                                                'precio_alcalde' => 1,
-                                                'precio_partido' => 1])->where('partido', 'all', $partidos)->get();
+            $precios = FiltradoEventos::project([ 'precio' => 1])->where('partido', 'regex', $partidos)->get();
+            $gasto['conteo'] = $precios->count();
             foreach ($precios as $precio){
-                $gasto->precio += $precio->precio;
+                $gasto['precio'] += $precio->precio;
             }
         } catch (ModelNotFoundException $e)
         {

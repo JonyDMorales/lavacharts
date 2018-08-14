@@ -6,13 +6,17 @@
         <div class="col-md-5" >
             <h2>Eventos</h2>
             <hr>
-            <div id="chart-div"></div>
+            <div id="gasto"></div>
+            <div id="conteo"></div>
         </div>
         <div class="col-md-4">
             <h2>Tierra</h2>
             <hr>
+
         </div>
     </div>
 
-    <?= $lava->render('DonutChart', 'Eventos', 'chart-div') ?>
+
+    {!! \Lava::render('DonutChart', 'Gasto de Eventos', 'gasto') !!}
+    {!! \Lava::render('BarChart', 'Conteo de Eventos', 'conteo') !!}
 @endsection
