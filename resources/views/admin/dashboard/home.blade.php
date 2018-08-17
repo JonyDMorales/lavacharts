@@ -6,17 +6,21 @@
         <div class="col-md-5" >
             <h2>Eventos</h2>
             <hr>
-            <div id="gasto"></div>
-            <div id="conteo"></div>
+            <div id="eventosGasto"></div>
+            <div id="eventosConteo"></div>
         </div>
         <div class="col-md-4">
             <h2>Tierra</h2>
             <hr>
-
+            <div id="tierraGasto"></div>
+            <div id="tierraCategorias"></div>
+            <?= print_r('') ?>
         </div>
     </div>
 
 
-    {!! \Lava::render('DonutChart', 'Gasto de Eventos', 'gasto') !!}
-    {!! \Lava::render('BarChart', 'Conteo de Eventos', 'conteo') !!}
+    {!! \Lava::render('DonutChart', 'Gasto de eventos', 'eventosGasto') !!}
+    {!! \Lava::render('BarChart', 'Total de eventos', 'eventosConteo') !!}
+    {!! \Lava::render('ColumnChart', 'Gasto de tierra', 'tierraGasto') !!}
+    {!! \Lava::render('ColumnChart', 'Gasto de categorías', 'tierraCategorias') !!}
 @endsection

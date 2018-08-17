@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\FiltradoTierra;
 use App\Http\Requests\UserChangePasswordRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\User;
@@ -303,20 +304,20 @@ class UserController extends Controller{
      */
 
     function home(){
-        $pri = $this->eventosConteoGasto('/.*PRI|PVEM|PANAL/i');
-        $pan = $this->eventosConteoGasto('/.*PAN|PRD|MC/i');
-        $morena = $this->eventosConteoGasto('/.*MORENA|PT|PES/i');
+        $eventosMORENA = $this->eventosConteoGasto('/.*MORENA|PT|PES/i');
+        $eventosPRI = $this->eventosConteoGasto('/.*PRI|PVEM|PANAL/i');
+        $eventosPAN = $this->eventosConteoGasto('/.*PAN|PRD|MC/i');
 
-        $gasto = new Lavacharts;
-        $grafica = $gasto->DataTable();
+        $eventosGasto = new Lavacharts;
+        $eventosGastoGrafica = $eventosGasto->DataTable();
 
-        $grafica->addStringColumn('Partido')
+        $eventosGastoGrafica->addStringColumn('Partido')
             ->addNumberColumn('Gasto')
-            ->addRow(['MORENA-PT-PES', $morena['precio']])
-            ->addRow(['PRI-PVEM-PANAL', $pri['precio']])
-            ->addRow(['PAN-PRD-MC', $pan['precio']]);
+            ->addRow(['MORENA-PT-PES', $eventosMORENA['precio']])
+            ->addRow(['PRI-PVEM-PANAL', $eventosPRI['precio']])
+            ->addRow(['PAN-PRD-MC', $eventosPAN['precio']]);
 
-        $gasto= \Lava::DonutChart('Gasto de Eventos', $grafica, ['title' => 'Gasto Total',
+        $eventosGasto= \Lava::DonutChart('Gasto de eventos', $eventosGastoGrafica, ['title' => 'Gasto de eventos',
             'pieHole' => 0.40,
             //'legend' => [ 'position' => 'top'],
             'colors' => ['#B3282B', '#008F36', '#063383'],
@@ -327,26 +328,77 @@ class UserController extends Controller{
             ],
             'height' => 300]);
 
-        $conteo = new Lavacharts;
+        $eventosConteo = new Lavacharts;
 
-        $grafic  = $conteo->DataTable();
+        $eventosConteoGrafica  = $eventosConteo->DataTable();
 
-        $grafic->addStringColumn('Partido')
+        $eventosConteoGrafica->addStringColumn('Partido')
             ->addNumberColumn('Cantidad de eventos')
             ->addRoleColumn('string', 'style')
-            ->addRow(['MORENA-PT-PES', $morena['conteo'], 'color:#B3282B'])
-            ->addRow(['PRI-PVEM-PANAL', $pri['conteo']],'color:#008F36' )
-            ->addRow(['PAN-PRD-MC', $pan['conteo'], 'color:#063383']);
+            ->addRow(['MORENA-PT-PES', $eventosMORENA['conteo'], 'color:#B3282B'])
+            ->addRow(['PRI-PVEM-PANAL', $eventosPRI['conteo'],'color:#008F36'])
+            ->addRow(['PAN-PRD-MC', $eventosPAN['conteo'], 'color:#063383']);
 
-        $conteo = \Lava::BarChart('Conteo de Eventos', $grafic, [ 'title' => 'Conteo de Eventos',
+        $eventosConteo = \Lava::BarChart('Total de eventos', $eventosConteoGrafica, [ 'title' => 'Conteo de eventos',
             'titleTextStyle' => [
                 'fontName' => 'Arial',
                 'fontColor' => 'black',
                 'fontSize' => 30,
             ],
+            'fontSize' => 10,
             'height' => 300]);
 
-        return view('admin.dashboard.home', ['conteo' => $conteo], ['gasto' => $gasto]);
+        $tierraMORENA = $this->tierraConteoGasto('/.*MORENA|PT|PES/i');
+        $tierraPRI = $this->tierraConteoGasto('/.*PRI|PVEM|PANAL/i');
+        //$tierraPAN = $this->tierraConteoGasto('/.*PAN|PRD|MC/i');
+
+        $tierraGasto = new Lavacharts;
+
+        $tierraGastoGrafica  = $tierraGasto->DataTable();
+
+        $tierraGastoGrafica->addStringColumn('Partido')
+            ->addNumberColumn('Gasto de tierra')
+            ->addRoleColumn('string', 'style')
+            ->addRow(['MORENA-PT-PES', $tierraMORENA['precio'], 'color:#B3282B'])
+            ->addRow(['PRI-PVEM-PANAL', $tierraPRI['precio'],'color:#008F36'])
+            ->addRow(['PAN-PRD-MC', 10, 'color:#063383']);
+
+        $tierraGasto = \Lava::ColumnChart('Gasto de tierra', $tierraGastoGrafica, [ 'title' => 'Gasto de tierra',
+            'titleTextStyle' => [
+                'fontName' => 'Arial',
+                'fontColor' => 'black',
+                'fontSize' => 30,
+            ],
+            'fontSize' => 12,
+            'height' => 300]);
+
+        $tierraGastoCategorias = new Lavacharts;
+
+        $tierraCategoriasGrafica  = $tierraGastoCategorias->DataTable();
+
+        $tierraCategoriasGrafica->addStringColumn('Partido')
+            ->addNumberColumn('Movil')
+            ->addNumberColumn('Fija')
+            ->addRoleColumn('string', 'style')
+            ->addRoleColumn('string', 'style')
+            ->addRow(['MORENA-PT-PES', $tierraMORENA['movil'], $tierraMORENA['fija'], 'color:#B3282B', 'color:#B3282B'])
+            ->addRow(['PRI-PVEM-PANAL', $tierraPRI['movil'], $tierraPRI['fija'],'color:#008F36'])
+            ->addRow(['PAN-PRD-MC', 10, 10, 'color:#063383']);
+
+        $tierraGastoCategorias = \Lava::ColumnChart('Gasto de categorías', $tierraCategoriasGrafica, [ 'title' => 'Gasto de movil y fija',
+            'titleTextStyle' => [
+                'fontName' => 'Arial',
+                'fontColor' => 'black',
+                'fontSize' => 30,
+            ],
+            'fontSize' => 12,
+            'height' => 300]);
+
+        return view('admin.dashboard.home',
+            ['eventosGasto' => $eventosGasto],
+            ['eventosConteo' => $eventosConteo],
+            ['tierraGasto' => $tierraGasto],
+            ['tierraCategorias' => $tierraGastoCategorias]) ->with('tierra', $tierraPRI );
     }
 
     function eventosConteoGasto($partidos){
@@ -357,8 +409,25 @@ class UserController extends Controller{
             foreach ($precios as $precio){
                 $gasto['precio'] += $precio->precio;
             }
-        } catch (ModelNotFoundException $e)
-        {
+        } catch (ModelNotFoundException $e) {
+            return $gasto;
+        }
+
+        return $gasto;
+    }
+
+    function tierraConteoGasto($partidos){
+        $gasto = array( 'precio' => 0, 'movil' => 0, 'fija' => 0);
+        try{
+            $precios = FiltradoTierra::project(['precio' => 1, 'categoria' => 1])->where('partido', 'regex', $partidos)->get();
+            foreach ($precios as $precio){
+                $gasto['precio'] += $precio->precio;
+                if( $precio->categoria =  'movil')
+                    $gasto['movil'] += $precio->precio;
+                if( $precio->categoria =  'fija')
+                    $gasto['fija'] += $precio->precio;
+            }
+        } catch (ModelNotFoundException $e) {
             return $gasto;
         }
 
