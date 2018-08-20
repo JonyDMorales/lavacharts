@@ -43,6 +43,44 @@
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <p class="navbar-text">@yield('title')</p>
+
+                    @if(isset($bandera))
+                        <div class="navbar-text btn-group btn-group-toggle" data-toggle="buttons">
+                            <label class="btn btn-default">
+                                <a  href="{{ route('partido') }}" > PRI </a>
+                            </label>
+                            <label class="btn btn-default">
+                                <input type="radio" checked> PVEM
+                            </label>
+                            <label class="btn btn-default">
+                                <input type="radio" checked> PANAL
+                            </label>
+                        </div>
+
+                        <div class="navbar-text btn-group btn-group-toggle" data-toggle="buttons">
+                            <label class="btn btn-default">
+                                <input type="radio" checked> PAN
+                            </label>
+                            <label class="btn btn-default">
+                                <input type="radio" checked> PRD
+                            </label>
+                            <label class="btn btn-default">
+                                <input type="radio" checked> MC
+                            </label>
+                        </div>
+
+                        <div class="navbar-text btn-group btn-group-toggle" data-toggle="buttons">
+                            <label class="btn btn-default">
+                                <input type="radio" checked> MORENA
+                            </label>
+                            <label class="btn btn-default">
+                                <input type="radio" checked> PT
+                            </label>
+                            <label class="btn btn-default">
+                                <input type="radio" checked> PES
+                            </label>
+                        </div>
+                    @endif
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->

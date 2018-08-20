@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app', ['bandera' => 'true'])
 @section('title') Dashboard @endsection
 @section('content')
     <div class="row" style="background-color: white; margin: 8px">

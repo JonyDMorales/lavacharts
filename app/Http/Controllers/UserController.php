@@ -350,7 +350,7 @@ class UserController extends Controller{
 
         $tierraMORENA = $this->tierraConteoGasto('/.*MORENA|PT|PES/i');
         $tierraPRI = $this->tierraConteoGasto('/.*PRI|PVEM|PANAL/i');
-        //$tierraPAN = $this->tierraConteoGasto('/.*PAN|PRD|MC/i');
+        $tierraPAN = $this->tierraConteoGasto('/.*PAN|PRD|MC/i');
 
         $tierraGasto = new Lavacharts;
 
@@ -361,7 +361,7 @@ class UserController extends Controller{
             ->addRoleColumn('string', 'style')
             ->addRow(['MORENA-PT-PES', $tierraMORENA['precio'], 'color:#B3282B'])
             ->addRow(['PRI-PVEM-PANAL', $tierraPRI['precio'],'color:#008F36'])
-            ->addRow(['PAN-PRD-MC', 10, 'color:#063383']);
+            ->addRow(['PAN-PRD-MC', $tierraPAN['precio'], 'color:#063383']);
 
         $tierraGasto = \Lava::ColumnChart('Gasto de tierra', $tierraGastoGrafica, [ 'title' => 'Gasto de tierra',
             'titleTextStyle' => [
@@ -383,7 +383,7 @@ class UserController extends Controller{
             ->addRoleColumn('string', 'style')
             ->addRow(['MORENA-PT-PES', $tierraMORENA['movil'], $tierraMORENA['fija'], 'color:#B3282B', 'color:#B3282B'])
             ->addRow(['PRI-PVEM-PANAL', $tierraPRI['movil'], $tierraPRI['fija'],'color:#008F36'])
-            ->addRow(['PAN-PRD-MC', 10, 10, 'color:#063383']);
+            ->addRow(['PAN-PRD-MC', $tierraPAN['movil'], $tierraPAN['fija'], 'color:#063383']);
 
         $tierraGastoCategorias = \Lava::ColumnChart('Gasto de categorías', $tierraCategoriasGrafica, [ 'title' => 'Gasto de movil y fija',
             'titleTextStyle' => [
@@ -398,7 +398,7 @@ class UserController extends Controller{
             ['eventosGasto' => $eventosGasto],
             ['eventosConteo' => $eventosConteo],
             ['tierraGasto' => $tierraGasto],
-            ['tierraCategorias' => $tierraGastoCategorias]) ->with('tierra', $tierraPRI );
+            ['tierraCategorias' => $tierraGastoCategorias]);
     }
 
     function eventosConteoGasto($partidos){
@@ -432,5 +432,9 @@ class UserController extends Controller{
         }
 
         return $gasto;
+    }
+
+    function partido(){
+        return view('admin.dashboard.partido', ['partido' => 'PRI']);
     }
 }
