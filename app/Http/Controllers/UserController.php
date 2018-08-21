@@ -434,7 +434,28 @@ class UserController extends Controller{
         return $gasto;
     }
 
-    function partido(){
-        return view('admin.dashboard.partido', ['partido' => 'PRI']);
+    function partido(Request $request){
+
+        $gastoEvento = new Lavacharts;
+        $eventosGastoGrafica = $gastoEvento->DataTable();
+
+        $eventosGastoGrafica->addStringColumn('Partido')
+            ->addNumberColumn('Gasto')
+            ->addRow(['PAN-PRD-MC', 10]);
+
+        $gastoEvento= \Lava::DonutChart('Gasto de eventos', $eventosGastoGrafica, ['title' => 'Gasto de eventos',
+            'pieHole' => 0.40,
+            //'legend' => [ 'position' => 'top'],
+            'colors' => ['#B3282B', '#008F36', '#063383'],
+            'titleTextStyle' => [
+                'fontName' => 'Arial',
+                'fontColor' => 'black',
+                'fontSize' => 30,
+            ],
+            'height' => 300]);
+
+        return view('admin.dashboard.partido')
+            ->with('partido', $request->partido)
+            ->with('gastoEvento', $gastoEvento);
     }
 }

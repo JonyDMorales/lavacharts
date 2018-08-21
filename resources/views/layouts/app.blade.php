@@ -42,18 +42,19 @@
 
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
-                    <p class="navbar-text">@yield('title')</p>
-
-                    @if(isset($bandera))
-                        <div class="navbar-text btn-group btn-group-toggle" data-toggle="buttons">
+                    @if(!isset($bandera))
+                        <p class="navbar-text">@yield('title')</p>
+                    @elseif(isset($bandera))
+                        <a style="text-decoration: none; color: gray;" href="{{ route('home') }}" class="navbar-text">@yield('title')</a>
+                        <div class="navbar-text btn-group btn-group-toggle">
                             <label class="btn btn-default">
-                                <a  href="{{ route('partido') }}" > PRI </a>
+                                <a style="text-decoration: none; color: gray;" href="{{ route('partido', ['partido' => 'PRI']) }}" > PRI </a>
                             </label>
                             <label class="btn btn-default">
-                                <input type="radio" checked> PVEM
+                                <a style="text-decoration: none; color: gray;" href="{{ route('partido', ['partido' => 'PVEM']) }}" > PVEM </a>
                             </label>
                             <label class="btn btn-default">
-                                <input type="radio" checked> PANAL
+                                <a style="text-decoration: none; color: gray;" href="{{ route('partido', ['partido' => 'PANAL']) }}" > PANAL </a>
                             </label>
                         </div>
 
