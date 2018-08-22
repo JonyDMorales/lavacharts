@@ -435,18 +435,24 @@ class UserController extends Controller{
     }
 
     function partido(Request $request){
+        $eventosCategoria = $this->eventoCategoriasGasto('/.*'.$request->partido.'/i');
 
-        $gastoEvento = new Lavacharts;
-        $eventosGastoGrafica = $gastoEvento->DataTable();
+        $eventoGastoCategorias = new Lavacharts;
+        $eventoGastoCategoriasGrafica = $eventoGastoCategorias->DataTable();
 
-        $eventosGastoGrafica->addStringColumn('Partido')
+        $eventoGastoCategoriasGrafica->addStringColumn('Categoria')
             ->addNumberColumn('Gasto')
-            ->addRow(['PAN-PRD-MC', 10]);
+            ->addRoleColumn('string', 'style')
+            ->addRow(['Estructura', $eventosCategoria['estructura'], 'color:#a72525'])
+            ->addRow(['Animación', $eventosCategoria['animacion']], 'color:#a74525')
+            ->addRow(['Transporte', $eventosCategoria['transporte'], 'color:#a76625'])
+            ->addRow(['Producción', $eventosCategoria['produccion'], 'color:#25A727'])
+            ->addRow(['Espectacular', $eventosCategoria['espectacular'], 'color:#6625A7'])
+            ->addRow(['Utilitario', $eventosCategoria['utilitario'], 'color:#87a725']);
 
-        $gastoEvento= \Lava::DonutChart('Gasto de eventos', $eventosGastoGrafica, ['title' => 'Gasto de eventos',
-            'pieHole' => 0.40,
-            //'legend' => [ 'position' => 'top'],
-            'colors' => ['#B3282B', '#008F36', '#063383'],
+
+
+        $eventoGastoCategorias= \Lava::ColumnChart('Gasto por Categoría', $eventoGastoCategoriasGrafica, ['title' => 'Gasto por Categoría',
             'titleTextStyle' => [
                 'fontName' => 'Arial',
                 'fontColor' => 'black',
@@ -454,8 +460,88 @@ class UserController extends Controller{
             ],
             'height' => 300]);
 
+
+        $estados = '/.*CIUDAD DE MEXICO|GUERRERO|MORELOS|PUEBLA|TLAXCALA/i';
+
+        $eventosEstados = $this->eventoEstados('/.*'.$request->partido.'/i', $estados);
+
         return view('admin.dashboard.partido')
             ->with('partido', $request->partido)
-            ->with('gastoEvento', $gastoEvento);
+            ->with('eventoGastoCategorias', $eventoGastoCategorias)
+            ->with('prueba', $eventosEstados);
+    }
+
+    function eventoCategoriasGasto($partido){
+        $gasto = array( 'estructura' => 0, 'animacion' => 0, 'transporte' => 0, 'produccion' => 0, 'espectacular' => 0, 'utilitario' => 0);
+        try{
+            $categorias = FiltradoEventos::project(['estructura.subcategoria' => 1, 'estructura.precio' => 1,
+                                                    'espectacular.subcategoria' => 1, 'espectacular.precio' => 1,
+                                                    'utilitario.subcategoria' => 1, 'utilitario.precio' => 1,
+                                                    'transporte.subcategoria' => 1, 'transporte.precio' => 1,
+                                                    'produccion.subcategoria' => 1, 'produccion.precio' => 1,
+                                                    'animacion.subcategoria' => 1, 'animacion.precio' => 1,])->where('partido', 'regex', $partido)->get();
+            foreach ($categorias as $categoria){
+                if(isset($categoria['estructura'])) {
+                    foreach ($categoria['estructura'] as $subcategorias) {
+                        $gasto['estructura'] += $subcategorias['precio'];
+                    }
+                }
+                if(isset($categoria['espectacular'])) {
+                    foreach ($categoria['espectacular'] as $subcategorias) {
+                        $gasto['espectacular'] += $subcategorias['precio'];
+                    }
+                }
+                if(isset($categoria['utilitario'])) {
+                    foreach ($categoria['utilitario'] as $subcategorias) {
+                        $gasto['utilitario'] += $subcategorias['precio'];
+                    }
+                }
+                if(isset($categoria['transporte'])) {
+                    foreach ($categoria['transporte'] as $subcategorias) {
+                        $gasto['transporte'] += $subcategorias['precio'];
+                    }
+                }
+                if(isset($categoria['produccion'])) {
+                    foreach ($categoria['produccion'] as $subcategorias) {
+                        $gasto['produccion'] += $subcategorias['precio'];
+                    }
+                }
+                if(isset($categoria['animacion'])) {
+                    foreach ($categoria['animacion'] as $subcategorias) {
+                        $gasto['animacion'] += $subcategorias['precio'];
+                    }
+                }
+            }
+        } catch (ModelNotFoundException $e) {
+            return $gasto;
+        }
+
+        return $gasto;
+    }
+
+    function eventoEstados($partido, $estados){
+
+        $arrayEstados = array( 'CIUDAD DE MEXICO' => array('gasto' => 0, 'cantidad' =>  0),
+            'GUERRERO' => array('gasto' => 0, 'cantidad' =>  0),
+            'MORELOS' => array('gasto' => 0, 'cantidad' =>  0),
+            'PUEBLA' => array('gasto' => 0, 'cantidad' =>  0),
+            'TLAXCALA' => array('gasto' => 0, 'cantidad' =>  0));
+
+        try{
+            $gastos = FiltradoEventos::project(['precio' => 1, 'estado' => 1])
+                ->where('partido', 'regex', $partido)
+                ->where('circunscripcion', 4)
+                ->where('estado', 'regex', $estados)
+                ->get();
+
+            foreach ($gastos as $gasto){
+                $arrayEstados[$gasto['estado']]['gasto'] += $gasto['precio'];
+                $arrayEstados[$gasto['estado']]['cantidad'] += 1;
+            }
+        } catch (ModelNotFoundException $e) {
+            return $arrayEstados;
+        }
+
+        return $arrayEstados;
     }
 }

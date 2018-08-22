@@ -14,7 +14,6 @@
             <hr>
             <div id="tierraGasto"></div>
             <div id="tierraCategorias"></div>
-            <?= print_r('') ?>
         </div>
     </div>
 

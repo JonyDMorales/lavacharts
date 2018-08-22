@@ -56,29 +56,29 @@
                             <label class="btn btn-default">
                                 <a style="text-decoration: none; color: gray;" href="{{ route('partido', ['partido' => 'PANAL']) }}" > PANAL </a>
                             </label>
-                        </div>
 
-                        <div class="navbar-text btn-group btn-group-toggle" data-toggle="buttons">
-                            <label class="btn btn-default">
-                                <input type="radio" checked> PAN
-                            </label>
-                            <label class="btn btn-default">
-                                <input type="radio" checked> PRD
-                            </label>
-                            <label class="btn btn-default">
-                                <input type="radio" checked> MC
-                            </label>
-                        </div>
+                            <label class="btn btn-default" style="background-color: white; color: white"> * </label>
 
-                        <div class="navbar-text btn-group btn-group-toggle" data-toggle="buttons">
                             <label class="btn btn-default">
-                                <input type="radio" checked> MORENA
+                                <a style="text-decoration: none; color: gray;" href="{{ route('partido', ['partido' => 'PRI']) }}" > PAN </a>
                             </label>
                             <label class="btn btn-default">
-                                <input type="radio" checked> PT
+                                <a style="text-decoration: none; color: gray;" href="{{ route('partido', ['partido' => 'PVEM']) }}" > PRD </a>
                             </label>
                             <label class="btn btn-default">
-                                <input type="radio" checked> PES
+                                <a style="text-decoration: none; color: gray;" href="{{ route('partido', ['partido' => 'PANAL']) }}" > MC </a>
+                            </label>
+
+                            <label class="btn btn-default" style="background-color: white; color: white"> * </label>
+
+                            <label class="btn btn-default">
+                                <a style="text-decoration: none; color: gray;" href="{{ route('partido', ['partido' => 'PRI']) }}" > MORENA </a>
+                            </label>
+                            <label class="btn btn-default">
+                                <a style="text-decoration: none; color: gray;" href="{{ route('partido', ['partido' => 'PVEM']) }}" > PT </a>
+                            </label>
+                            <label class="btn btn-default">
+                                <a style="text-decoration: none; color: gray;" href="{{ route('partido', ['partido' => 'PANAL']) }}" > PES </a>
                             </label>
                         </div>
                     @endif

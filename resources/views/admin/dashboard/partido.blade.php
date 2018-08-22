@@ -1,7 +1,25 @@
 @extends('layouts.app', ['bandera' => 'true'])
 @section('title') Dashboard @endsection
 @section('content')
-    <div style="background-color: white">
-        @if(isset($partido)) <h2> {{$partido}} </h2> @endif
-    </div>
+    @if(isset($partido))
+        <div class="row" style="background-color: white; margin: 8px">
+            <div class="col-md-3">
+                <h2> {{ $partido }} </h2>
+            </div>
+            <div class="col-md-5" >
+                <h2>Eventos</h2>
+                <hr>
+                <div id="eventosGastoCategorias"></div>
+            </div>
+            <div class="col-md-4">
+                <h2>Tierra</h2>
+                <hr>
+                <?=   print_r($prueba)  ?>
+            </div>
+        </div>
+    @else
+
+    @endif
+
+    {!! \Lava::render('ColumnChart', 'Gasto por Categoría', 'eventosGastoCategorias') !!}
 @endsection
