@@ -507,14 +507,80 @@ class UserController extends Controller{
 
         $subcategorias = $this->eventoSubcategoriasGasto('/.*'.$request->partido.'/i');
 
+        $eventosSubcategoriaAnimacion = new Lavacharts;
+        $eventosSubcategoriaAnimacionGrafica = $eventosSubcategoriaAnimacion->DataTable();
 
+        $eventosSubcategoriaAnimacionGrafica->addStringColumn('Subcategoría')
+            ->addNumberColumn('Gasto')
+            ->addRoleColumn('string', 'style')
+            ->addRow(['Animación', $subcategorias['animacion']['animacion'], 'color:#a72525'])
+            ->addRow(['Edecanes', $subcategorias['animacion']['edecanes'], 'color:#a74525'])
+            ->addRow(['Grupos musicales/djs', $subcategorias['animacion']['grupos musicales / djs'], 'color:#a76625'])
+            ->addRow(['Otros ', $subcategorias['animacion']['otros'], 'color:#25A727']);
+
+        $eventosSubcategoriaAnimacion= \Lava::DonutChart('Gasto en animación', $eventosSubcategoriaAnimacionGrafica, ['title' => 'Gasto en animación',
+            'titleTextStyle' => [
+                'fontName' => 'Arial',
+                'fontColor' => 'black',
+                'fontSize' => 30,
+            ],
+            'height' => 300]);
+
+        $eventosSubcategoriaEspectacular = new Lavacharts;
+        $eventosSubcategoriaEspectacularGrafica = $eventosSubcategoriaEspectacular->DataTable();
+
+        $eventosSubcategoriaEspectacularGrafica->addStringColumn('Subcategoría')
+            ->addNumberColumn('Gasto')
+            ->addRoleColumn('string', 'style')
+            ->addRow(['Inflable', $subcategorias['espectacular']['inflable'], 'color:#a72525'])
+            ->addRow(['Lonas', $subcategorias['espectacular']['lonas'], 'color:#a74525'])
+            ->addRow(['Otros', $subcategorias['espectacular']['otros'], 'color:#a76625'])
+            ->addRow(['Pendones', $subcategorias['espectacular']['pendones'], 'color:#25A727']);
+
+        $eventosSubcategoriaEspectacular= \Lava::DonutChart('Gasto en espectacular', $eventosSubcategoriaEspectacularGrafica, ['title' => 'Gasto en espectacular',
+            'titleTextStyle' => [
+                'fontName' => 'Arial',
+                'fontColor' => 'black',
+                'fontSize' => 30,
+            ],
+            'height' => 300]);
+
+        $eventosSubcategoriaEstructura = new Lavacharts;
+        $eventosSubcategoriaEstructuraGrafica = $eventosSubcategoriaEstructura->DataTable();
+
+        $eventosSubcategoriaEstructuraGrafica->addStringColumn('Subcategoría')
+            ->addNumberColumn('Gasto')
+            ->addRoleColumn('string', 'style')
+            ->addRow(['banner', $subcategorias['estructura']['banner'], 'color:#a72525'])
+            ->addRow(['baños publicos', $subcategorias['estructura']['baños publicos'], 'color:#a74525'])
+            ->addRow(['carpas', $subcategorias['estructura']['carpas'], 'color:#a76625'])
+            ->addRow(['escenario', $subcategorias['estructura']['escenario'], 'color:#25A727'])
+            ->addRow(['gradas', $subcategorias['estructura']['gradas'], 'color:#a76625'])
+            ->addRow(['mampara', $subcategorias['estructura']['mampara'], 'color:#a76625'])
+            ->addRow(['mesas', $subcategorias['estructura']['mesas'], 'color:#a76625'])
+            ->addRow(['otros', $subcategorias['estructura']['otros'], 'color:#a76625'])
+            ->addRow(['sillas', $subcategorias['estructura']['sillas'], 'color:#a76625'])
+            ->addRow(['sillones', $subcategorias['estructura']['sillones'], 'color:#a76625'])
+            ->addRow(['templete', $subcategorias['estructura']['templete'], 'color:#a76625'])
+            ->addRow(['vallas', $subcategorias['estructura']['vallas'], 'color:#a76625']);
+
+        $eventosSubcategoriaEstructura= \Lava::DonutChart('Gasto en estructura', $eventosSubcategoriaEstructuraGrafica, ['title' => 'Gasto en estructura',
+            'titleTextStyle' => [
+                'fontName' => 'Arial',
+                'fontColor' => 'black',
+                'fontSize' => 30,
+            ],
+            'height' => 300]);
 
         return view('admin.dashboard.partido')
             ->with('partido', $request->partido)
             ->with('eventoGastoCategorias', $eventoGastoCategorias)
             ->with('eventoConteoEstados', $eventosConteoEstados)
             ->with('eventoGastoEstados', $eventosGastoEstados)
-            ->with('prueba', $subcategorias);
+            ->with('eventosSubcategoriaAnimacion', $eventosSubcategoriaAnimacion)
+            ->with('eventosSubcategoriaEspectacular', $eventosSubcategoriaEspectacular)
+            ->with('eventosSubcategoriaEstructura', $eventosSubcategoriaEstructura)
+            ->with('prueba', $subcategorias['produccion']);
     }
 
     function eventoCategoriasGasto($partido){
