@@ -60,25 +60,25 @@
                             <label class="btn btn-default" style="background-color: white; color: white"> * </label>
 
                             <label class="btn btn-default">
-                                <a style="text-decoration: none; color: gray;" href="{{ route('partido', ['partido' => 'PRI']) }}" > PAN </a>
+                                <a style="text-decoration: none; color: gray;" href="{{ route('partido', ['partido' => 'PAN']) }}" > PAN </a>
                             </label>
                             <label class="btn btn-default">
-                                <a style="text-decoration: none; color: gray;" href="{{ route('partido', ['partido' => 'PVEM']) }}" > PRD </a>
+                                <a style="text-decoration: none; color: gray;" href="{{ route('partido', ['partido' => 'PRD']) }}" > PRD </a>
                             </label>
                             <label class="btn btn-default">
-                                <a style="text-decoration: none; color: gray;" href="{{ route('partido', ['partido' => 'PANAL']) }}" > MC </a>
+                                <a style="text-decoration: none; color: gray;" href="{{ route('partido', ['partido' => 'MC']) }}" > MC </a>
                             </label>
 
                             <label class="btn btn-default" style="background-color: white; color: white"> * </label>
 
                             <label class="btn btn-default">
-                                <a style="text-decoration: none; color: gray;" href="{{ route('partido', ['partido' => 'PRI']) }}" > MORENA </a>
+                                <a style="text-decoration: none; color: gray;" href="{{ route('partido', ['partido' => 'MORENA']) }}" > MORENA </a>
                             </label>
                             <label class="btn btn-default">
-                                <a style="text-decoration: none; color: gray;" href="{{ route('partido', ['partido' => 'PVEM']) }}" > PT </a>
+                                <a style="text-decoration: none; color: gray;" href="{{ route('partido', ['partido' => 'PT']) }}" > PT </a>
                             </label>
                             <label class="btn btn-default">
-                                <a style="text-decoration: none; color: gray;" href="{{ route('partido', ['partido' => 'PANAL']) }}" > PES </a>
+                                <a style="text-decoration: none; color: gray;" href="{{ route('partido', ['partido' => 'PES']) }}" > PES </a>
                             </label>
                         </div>
                     @endif

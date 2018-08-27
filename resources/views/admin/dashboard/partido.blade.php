@@ -10,11 +10,13 @@
                 <h2>Eventos</h2>
                 <hr>
                 <div id="eventosGastoCategorias"></div>
+                <div id="eventoConteoEstados"></div>
+                <div id="eventosGastoEstados"></div>
             </div>
             <div class="col-md-4">
                 <h2>Tierra</h2>
                 <hr>
-                <?=   print_r($prueba)  ?>
+                <?=  print_r($prueba)  ?>
             </div>
         </div>
     @else
@@ -22,4 +24,6 @@
     @endif
 
     {!! \Lava::render('ColumnChart', 'Gasto por Categoría', 'eventosGastoCategorias') !!}
+    {!! \Lava::render('DonutChart', 'Cantidad por estado', 'eventoConteoEstados') !!}
+    {!! \Lava::render('DonutChart', 'Gasto por estado', 'eventosGastoEstados') !!}
 @endsection

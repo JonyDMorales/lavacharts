@@ -465,10 +465,56 @@ class UserController extends Controller{
 
         $eventosEstados = $this->eventoEstados('/.*'.$request->partido.'/i', $estados);
 
+        $eventosConteoEstados = new Lavacharts;
+        $eventoConteoEstadosGrafica = $eventosConteoEstados->DataTable();
+
+        $eventoConteoEstadosGrafica->addStringColumn('Estado')
+            ->addNumberColumn('Cantidad')
+            ->addRoleColumn('string', 'style')
+            ->addRow(['CIUDAD DE MEXICO', $eventosEstados['CIUDAD DE MEXICO']['cantidad'], 'color:#a72525'])
+            ->addRow(['GUERRERO', $eventosEstados['GUERRERO']['cantidad'], 'color:#a74525'])
+            ->addRow(['MORELOS', $eventosEstados['MORELOS']['cantidad'], 'color:#a76625'])
+            ->addRow(['PUEBLA', $eventosEstados['PUEBLA']['cantidad'], 'color:#25A727'])
+            ->addRow(['TLAXCALA', $eventosEstados['TLAXCALA']['cantidad'], 'color:#6625A7']);
+
+        $eventosConteoEstados= \Lava::DonutChart('Cantidad por estado', $eventoConteoEstadosGrafica, ['title' => 'Cantidad por estado',
+            'titleTextStyle' => [
+                'fontName' => 'Arial',
+                'fontColor' => 'black',
+                'fontSize' => 30,
+            ],
+            'height' => 300]);
+
+        $eventosGastoEstados = new Lavacharts;
+        $eventoGastosEstadosGrafica = $eventosGastoEstados->DataTable();
+
+        $eventoGastosEstadosGrafica->addStringColumn('Estado')
+            ->addNumberColumn('Cantidad')
+            ->addRoleColumn('string', 'style')
+            ->addRow(['CIUDAD DE MEXICO', $eventosEstados['CIUDAD DE MEXICO']['gasto'], 'color:#a72525'])
+            ->addRow(['GUERRERO', $eventosEstados['GUERRERO']['gasto'], 'color:#a74525'])
+            ->addRow(['MORELOS', $eventosEstados['MORELOS']['gasto'], 'color:#a76625'])
+            ->addRow(['PUEBLA', $eventosEstados['PUEBLA']['gasto'], 'color:#25A727'])
+            ->addRow(['TLAXCALA', $eventosEstados['TLAXCALA']['gasto'], 'color:#6625A7']);
+
+        $eventosGastoEstados= \Lava::DonutChart('Gasto por estado', $eventoGastosEstadosGrafica, ['title' => 'Gasto por estado',
+            'titleTextStyle' => [
+                'fontName' => 'Arial',
+                'fontColor' => 'black',
+                'fontSize' => 30,
+            ],
+            'height' => 300]);
+
+        $subcategorias = $this->eventoSubcategoriasGasto('/.*'.$request->partido.'/i');
+
+
+
         return view('admin.dashboard.partido')
             ->with('partido', $request->partido)
             ->with('eventoGastoCategorias', $eventoGastoCategorias)
-            ->with('prueba', $eventosEstados);
+            ->with('eventoConteoEstados', $eventosConteoEstados)
+            ->with('eventoGastoEstados', $eventosGastoEstados)
+            ->with('prueba', $subcategorias);
     }
 
     function eventoCategoriasGasto($partido){
@@ -544,4 +590,137 @@ class UserController extends Controller{
 
         return $arrayEstados;
     }
+
+    function eventoSubcategoriasGasto($partido){
+        $gasto = array( 'animacion' =>['animacion' => 0,
+                                       'edecanes' => 0,
+                                       'grupos musicales / djs' => 0,
+                                       'otros' => 0 ],
+                        'espectacular'=>[ 'inflable' => 0,
+                                          'lonas' => 0,
+                                          'otros' => 0,
+                                          'pendones' => 0, ],
+                        'estructura'=>[ 'banner' => 0,
+                                        'baños publicos' => 0,
+                                        'carpas' => 0,
+                                        'escenario' => 0,
+                                        'gradas' => 0,
+                                        'mampara' => 0,
+                                        'mesas' => 0,
+                                        'otros' => 0,
+                                        'sillas' => 0,
+                                        'sillones' => 0,
+                                        'templete' => 0,
+                                        'vallas' => 0, ],
+                        'produccion'=>[ 'camaras de video' => 0,
+                                        'computadoras' => 0,
+                                        'consola de audio' => 0,
+                                        'drone' => 0,
+                                        'equipo de audio' => 0,
+                                        'estructura del partido' => 0,
+                                        'gruas de camara' => 0,
+                                        'luces' => 0,
+                                        'microfonos' => 0,
+                                        'muro de video (mas de 2 pantallas)' => 0,
+                                        'otros' => 0,
+                                        'pantallas' => 0,
+                                        'personal de seguridad' => 0,
+                                        'plantas de luz' => 0,
+                                        'proyectores' => 0,
+                                        'servicio medico' => 0 ],
+                        'transporte'=>[ 'automoviles' => 0,
+                                        'camiones' => 0,
+                                        'camionetas' => 0,
+                                        'combi/microbus' => 0,
+                                        'otros' => 0,
+                                        'taxi' => 0 ],
+                        'utilitario'=>[ 'abanicos' => 0,
+                                        'aguas' => 0,
+                                        'banderas' => 0,
+                                        'bolsas' => 0,
+                                        'botones' => 0,
+                                        'camisas' => 0,
+                                        'chaleco' => 0,
+                                        'chamarras' => 0,
+                                        'cobija' => 0,
+                                        'gorras' => 0,
+                                        'impermeable' => 0,
+                                        'lonches' => 0,
+                                        'mandiles' => 0,
+                                        'mangas' => 0,
+                                        'mantas (igual o mayor a 12 mts)' => 0,
+                                        'mantas (menores a 12 mts)' => 0,
+                                        'microperforados' => 0,
+                                        'otros' => 0,
+                                        'paliacates' => 0,
+                                        'playeras' => 0,
+                                        'pulseras' => 0,
+                                        'refrescos' => 0,
+                                        'sombrillas' => 0,
+                                        'stickers' => 0,
+                                        'sudadera' => 0,
+                                        'tortilleros' => 0,
+                                        'vasos' => 0,
+                                        'vinilonas' => 0,
+                                        'volantes' => 0 ]
+        );
+
+        try{
+            $categorias = FiltradoEventos::project(['estructura.subcategoria' => 1, 'estructura.precio' => 1,
+                'espectacular.subcategoria' => 1, 'espectacular.precio' => 1,
+                'utilitario.subcategoria' => 1, 'utilitario.precio' => 1,
+                'transporte.subcategoria' => 1, 'transporte.precio' => 1,
+                'produccion.subcategoria' => 1, 'produccion.precio' => 1,
+                'animacion.subcategoria' => 1, 'animacion.precio' => 1,])->where('partido', 'regex', $partido)->get();
+            foreach ($categorias as $categoria){
+                if(isset($categoria['estructura'])) {
+                    foreach ($categoria['estructura'] as $subcategorias) {
+                        if (isset($gasto['estructura'][$subcategorias['subcategoria']])){
+                            $gasto['estructura'][$subcategorias['subcategoria']] += $subcategorias['precio'];
+                        }
+                    }
+                }
+                if(isset($categoria['espectacular'])) {
+                    foreach ($categoria['espectacular'] as $subcategorias) {
+                        if (isset($gasto['espectacular'][$subcategorias['subcategoria']])){
+                            $gasto['espectacular'][$subcategorias['subcategoria']] += $subcategorias['precio'];
+                        }
+                    }
+                }
+                if(isset($categoria['utilitario'])) {
+                    foreach ($categoria['utilitario'] as $subcategorias) {
+                        if (isset($gasto['utilitario'][$subcategorias['subcategoria']])){
+                            $gasto['utilitario'][$subcategorias['subcategoria']] += $subcategorias['precio'];
+                        }
+                    }
+                }
+                if(isset($categoria['transporte'])) {
+                    foreach ($categoria['transporte'] as $subcategorias) {
+                        if (isset($gasto['transporte'][$subcategorias['subcategoria']])){
+                            $gasto['transporte'][$subcategorias['subcategoria']] += $subcategorias['precio'];
+                        }
+                    }
+                }
+                if(isset($categoria['produccion'])) {
+                    foreach ($categoria['produccion'] as $subcategorias) {
+                        if (isset($gasto['produccion'][$subcategorias['subcategoria']])){
+                            $gasto['produccion'][$subcategorias['subcategoria']] += $subcategorias['precio'];
+                        }
+                    }
+                }
+                if(isset($categoria['animacion'])) {
+                    foreach ($categoria['animacion'] as $subcategorias) {
+                        if (isset($gasto['animacion'][$subcategorias['subcategoria']])){
+                            $gasto['animacion'][$subcategorias['subcategoria']] += $subcategorias['precio'];
+                        }
+                    }
+                }
+            }
+        } catch (ModelNotFoundException $e) {
+            return $gasto;
+        }
+
+        return  $gasto;
+    }
+
 }
