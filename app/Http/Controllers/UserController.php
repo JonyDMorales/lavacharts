@@ -572,6 +572,222 @@ class UserController extends Controller{
             ],
             'height' => 300]);
 
+        $eventosSubcategoriaProduccion = new Lavacharts;
+        $eventosSubcategoriaProduccionGrafica = $eventosSubcategoriaProduccion->DataTable();
+
+        $eventosSubcategoriaProduccionGrafica->addStringColumn('Subcategoría')
+            ->addNumberColumn('Gasto')
+            ->addRoleColumn('string', 'style')
+            ->addRow(['camaras de video', $subcategorias['produccion']['camaras de video'], 'color:#a72525'])
+            ->addRow(['computadoras', $subcategorias['produccion']['computadoras'], 'color:#a74525'])
+            ->addRow(['consola de audio', $subcategorias['produccion']['consola de audio'], 'color:#a76625'])
+            ->addRow(['drone', $subcategorias['produccion']['drone'], 'color:#25A727'])
+            ->addRow(['equipo de audio', $subcategorias['produccion']['equipo de audio'], 'color:#a76625'])
+            ->addRow(['estructura del partido', $subcategorias['produccion']['estructura del partido'], 'color:#a76625'])
+            ->addRow(['gruas de camara', $subcategorias['produccion']['gruas de camara'], 'color:#a76625'])
+            ->addRow(['luces', $subcategorias['produccion']['luces'], 'color:#a76625'])
+            ->addRow(['microfonos', $subcategorias['produccion']['microfonos'], 'color:#a76625'])
+            ->addRow(['muro de video (mas de 2 pantallas)', $subcategorias['produccion']['muro de video (mas de 2 pantallas)'], 'color:#a76625'])
+            ->addRow(['otros', $subcategorias['produccion']['otros'], 'color:#a76625'])
+            ->addRow(['pantallas', $subcategorias['produccion']['pantallas'], 'color:#a76625'])
+            ->addRow(['personal de seguridad', $subcategorias['produccion']['personal de seguridad'], 'color:#a76625'])
+            ->addRow(['plantas de luz', $subcategorias['produccion']['plantas de luz'], 'color:#a76625'])
+            ->addRow(['proyectores', $subcategorias['produccion']['proyectores'], 'color:#a76625'])
+            ->addRow(['servicio medico', $subcategorias['produccion']['servicio medico'], 'color:#a76625']);
+
+        $eventosSubcategoriaProduccion= \Lava::DonutChart('Gasto en producción', $eventosSubcategoriaProduccionGrafica, ['title' => 'Gasto en producción',
+            'titleTextStyle' => [
+                'fontName' => 'Arial',
+                'fontColor' => 'black',
+                'fontSize' => 30,
+            ],
+            'height' => 300]);
+
+        $eventosSubcategoriaTransporte = new Lavacharts;
+        $eventosSubcategoriaTransporteGrafica = $eventosSubcategoriaTransporte->DataTable();
+
+        $eventosSubcategoriaTransporteGrafica->addStringColumn('Subcategoría')
+            ->addNumberColumn('Gasto')
+            ->addRoleColumn('string', 'style')
+            ->addRow(['automoviles', $subcategorias['transporte']['automoviles'], 'color:#a72525'])
+            ->addRow(['camiones', $subcategorias['transporte']['camiones'], 'color:#a74525'])
+            ->addRow(['camionetas', $subcategorias['transporte']['camionetas'], 'color:#a76625'])
+            ->addRow(['combi/microbus', $subcategorias['transporte']['combi/microbus'], 'color:#25A727'])
+            ->addRow(['otros', $subcategorias['transporte']['otros'], 'color:#a76625'])
+            ->addRow(['taxi', $subcategorias['transporte']['taxi'], 'color:#a76625']);
+
+        $eventosSubcategoriaTransporte= \Lava::DonutChart('Gasto en transporte', $eventosSubcategoriaTransporteGrafica, ['title' => 'Gasto en transporte',
+            'titleTextStyle' => [
+                'fontName' => 'Arial',
+                'fontColor' => 'black',
+                'fontSize' => 30,
+            ],
+            'height' => 300]);
+
+        $eventosSubcategoriaUtilitario = new Lavacharts;
+        $eventosSubcategoriaUtilitarioGrafica = $eventosSubcategoriaUtilitario->DataTable();
+
+        $eventosSubcategoriaUtilitarioGrafica->addStringColumn('Subcategoría')
+            ->addNumberColumn('Gasto')
+            ->addRoleColumn('string', 'style')
+            ->addRow(['abanicos', $subcategorias['utilitario']['abanicos'], 'color:#a72525'])
+            ->addRow(['aguas', $subcategorias['utilitario']['aguas'], 'color:#a74525'])
+            ->addRow(['banderas', $subcategorias['utilitario']['banderas'], 'color:#a76625'])
+            ->addRow(['bolsas', $subcategorias['utilitario']['bolsas'], 'color:#25A727'])
+            ->addRow(['botones', $subcategorias['utilitario']['botones'], 'color:#a76625'])
+            ->addRow(['camisas', $subcategorias['utilitario']['camisas'], 'color:#a76625'])
+            ->addRow(['chaleco', $subcategorias['utilitario']['chaleco'], 'color:#a76625'])
+            ->addRow(['chamarras', $subcategorias['utilitario']['chamarras'], 'color:#a76625'])
+            ->addRow(['cobija', $subcategorias['utilitario']['cobija'], 'color:#a76625'])
+            ->addRow(['gorras', $subcategorias['utilitario']['gorras'], 'color:#a76625'])
+            ->addRow(['impermeable', $subcategorias['utilitario']['impermeable'], 'color:#a76625'])
+            ->addRow(['lonches', $subcategorias['utilitario']['lonches'], 'color:#a76625'])
+            ->addRow(['mandiles', $subcategorias['utilitario']['mandiles'], 'color:#a76625'])
+            ->addRow(['mangas', $subcategorias['utilitario']['mangas'], 'color:#a76625'])
+            ->addRow(['mantas (igual o mayor a 12 mts)', $subcategorias['utilitario']['mantas (igual o mayor a 12 mts)'], 'color:#a76625'])
+            ->addRow(['mantas (menores a 12 mts)', $subcategorias['utilitario']['mantas (menores a 12 mts)'], 'color:#a76625'])
+            ->addRow(['microperforados', $subcategorias['utilitario']['microperforados'], 'color:#a76625'])
+            ->addRow(['otros', $subcategorias['utilitario']['otros'], 'color:#a76625'])
+            ->addRow(['paliacates', $subcategorias['utilitario']['paliacates'], 'color:#a76625'])
+            ->addRow(['playeras', $subcategorias['utilitario']['playeras'], 'color:#a76625'])
+            ->addRow(['pulseras', $subcategorias['utilitario']['pulseras'], 'color:#a76625'])
+            ->addRow(['refrescos', $subcategorias['utilitario']['refrescos'], 'color:#a76625'])
+            ->addRow(['sombrillas', $subcategorias['utilitario']['sombrillas'], 'color:#a76625'])
+            ->addRow(['stickers', $subcategorias['utilitario']['stickers'], 'color:#a76625'])
+            ->addRow(['sudadera', $subcategorias['utilitario']['sudadera'], 'color:#a76625'])
+            ->addRow(['tortilleros', $subcategorias['utilitario']['tortilleros'], 'color:#a76625'])
+            ->addRow(['vasos', $subcategorias['utilitario']['vasos'], 'color:#a76625'])
+            ->addRow(['vinilonas', $subcategorias['utilitario']['vinilonas'], 'color:#a76625'])
+            ->addRow(['volantes', $subcategorias['utilitario']['volantes'], 'color:#a76625']);
+
+        $eventosSubcategoriaUtilitario= \Lava::DonutChart('Gasto en utilitario', $eventosSubcategoriaUtilitarioGrafica, ['title' => 'Gasto en utilitario',
+            'titleTextStyle' => [
+                'fontName' => 'Arial',
+                'fontColor' => 'black',
+                'fontSize' => 30,
+            ],
+            'height' => 300]);
+        /********************   Comienza Tierra   ********************/
+
+        $tierraCategorias = $this->tierraCategoriasGasto('/.*'.$request->partido.'/i', $estados);
+
+        $tierraGastoCategorias = new Lavacharts;
+        $tierraGastoCategoriasGrafica = $tierraGastoCategorias->DataTable();
+
+        $tierraGastoCategoriasGrafica->addStringColumn('Categoria')
+            ->addNumberColumn('Gasto')
+            ->addRoleColumn('string', 'style')
+            ->addRow(['Movil', $tierraCategorias['movil'], 'color:#6625A7'])
+            ->addRow(['Fija', $tierraCategorias['fija'], 'color:#a72525']);
+
+        $tierraGastoCategorias= \Lava::ColumnChart('Gasto de tierra por Categoría', $tierraGastoCategoriasGrafica, ['title' => 'Gasto por Categoría',
+            'titleTextStyle' => [
+                'fontName' => 'Arial',
+                'fontColor' => 'black',
+                'fontSize' => 30,
+            ],
+            'height' => 300]);
+
+        $tierraEstados = $this->tierraEstados('/.*'.$request->partido.'/i', $estados);
+
+        $tierraConteoEstados = new Lavacharts;
+        $tierraConteoEstadosGrafica = $tierraConteoEstados->DataTable();
+
+        $tierraConteoEstadosGrafica->addStringColumn('Estado')
+            ->addNumberColumn('Cantidad')
+            ->addRoleColumn('string', 'style')
+            ->addRow(['CIUDAD DE MEXICO', $tierraEstados['CIUDAD DE MEXICO']['cantidad'], 'color:#a72525'])
+            ->addRow(['GUERRERO', $tierraEstados['GUERRERO']['cantidad'], 'color:#a74525'])
+            ->addRow(['MORELOS', $tierraEstados['MORELOS']['cantidad'], 'color:#a76625'])
+            ->addRow(['PUEBLA', $tierraEstados['PUEBLA']['cantidad'], 'color:#25A727'])
+            ->addRow(['TLAXCALA', $tierraEstados['TLAXCALA']['cantidad'], 'color:#6625A7']);
+
+        $tierraConteoEstados= \Lava::DonutChart('Tierra cantidad por estado', $tierraConteoEstadosGrafica, ['title' => 'Cantidad por estado',
+            'titleTextStyle' => [
+                'fontName' => 'Arial',
+                'fontColor' => 'black',
+                'fontSize' => 30,
+            ],
+            'height' => 300]);
+
+        $tierraGastoEstados = new Lavacharts;
+        $tierraGastosEstadosGrafica = $tierraGastoEstados->DataTable();
+
+        $tierraGastosEstadosGrafica->addStringColumn('Estado')
+            ->addNumberColumn('Cantidad')
+            ->addRoleColumn('string', 'style')
+            ->addRow(['CIUDAD DE MEXICO', $tierraEstados['CIUDAD DE MEXICO']['gasto'], 'color:#a72525'])
+            ->addRow(['GUERRERO', $tierraEstados['GUERRERO']['gasto'], 'color:#a74525'])
+            ->addRow(['MORELOS', $tierraEstados['MORELOS']['gasto'], 'color:#a76625'])
+            ->addRow(['PUEBLA', $tierraEstados['PUEBLA']['gasto'], 'color:#25A727'])
+            ->addRow(['TLAXCALA', $tierraEstados['TLAXCALA']['gasto'], 'color:#6625A7']);
+
+        $tierraGastoEstados= \Lava::DonutChart('Tierra gasto por estado', $tierraGastosEstadosGrafica, ['title' => 'Gasto por estado',
+            'titleTextStyle' => [
+                'fontName' => 'Arial',
+                'fontColor' => 'black',
+                'fontSize' => 30,
+            ],
+            'height' => 300]);
+
+        $tierraSubcategorias = $this->tierraSubcategoriasGasto('/.*'.$request->partido.'/i', $estados);
+
+        $tierraSubcategoriaFija = new Lavacharts;
+        $tierraSubcategoriaFijaGrafica = $tierraSubcategoriaFija->DataTable();
+
+        $tierraSubcategoriaFijaGrafica->addStringColumn('Subcategoría')
+            ->addNumberColumn('Gasto')
+            ->addRoleColumn('string', 'style')
+            ->addRow(['bardas', $tierraSubcategorias['fija']['bardas'], 'color:#a72525'])
+            ->addRow(['buzones', $tierraSubcategorias['fija']['buzones'], 'color:#a74525'])
+            ->addRow(['caja de luz', $tierraSubcategorias['fija']['caja de luz'], 'color:#a76625'])
+            ->addRow(['carteles', $tierraSubcategorias['fija']['carteles'], 'color:#25A727'])
+            ->addRow(['espectaculares', $tierraSubcategorias['fija']['espectaculares'], 'color:#a76625'])
+            ->addRow(['espectaculares de pantallas digitales', $tierraSubcategorias['fija']['espectaculares de pantallas digitales'], 'color:#a76625'])
+            ->addRow(['kioscos', $tierraSubcategorias['fija']['kioscos'], 'color:#a76625'])
+            ->addRow(['lonas', $tierraSubcategorias['fija']['lonas'], 'color:#a76625'])
+            ->addRow(['mantas (igual o mayor a 12 mts)', $tierraSubcategorias['fija']['mantas (igual o mayor a 12 mts)'], 'color:#a76625'])
+            ->addRow(['mantas (menores a 12 mts)', $tierraSubcategorias['fija']['mantas (menores a 12 mts)'], 'color:#a76625'])
+            ->addRow(['marquesinas', $tierraSubcategorias['fija']['marquesinas'], 'color:#a76625'])
+            ->addRow(['muebles urbanos', $tierraSubcategorias['fija']['muebles urbanos'], 'color:#a76625'])
+            ->addRow(['pantallas fijas', $tierraSubcategorias['fija']['pantallas fijas'], 'color:#a76625'])
+            ->addRow(['parabuses', $tierraSubcategorias['fija']['parabuses'], 'color:#a76625'])
+            ->addRow(['pendones', $tierraSubcategorias['fija']['pendones'], 'color:#a76625'])
+            ->addRow(['propaganda en columnas', $tierraSubcategorias['fija']['propaganda en columnas'], 'color:#a76625'])
+            ->addRow(['puente', $tierraSubcategorias['fija']['puente'], 'color:#a76625'])
+            ->addRow(['valla digital', $tierraSubcategorias['fija']['valla digital'], 'color:#a76625'])
+            ->addRow(['volantes', $tierraSubcategorias['fija']['volantes'], 'color:#a76625']);
+
+        $tierraSubcategoriaFija= \Lava::DonutChart('Gasto en fija', $tierraSubcategoriaFijaGrafica, ['title' => 'Gasto en fija',
+            'titleTextStyle' => [
+                'fontName' => 'Arial',
+                'fontColor' => 'black',
+                'fontSize' => 30,
+            ],
+            'height' => 300]);
+
+        $tierraSubcategoriaMovil = new Lavacharts;
+        $tierraSubcategoriaMovilGrafica = $tierraSubcategoriaMovil->DataTable();
+
+        $tierraSubcategoriaMovilGrafica->addStringColumn('Subcategoría')
+            ->addNumberColumn('Gasto')
+            ->addRoleColumn('string', 'style')
+            ->addRow(['bicicletas, bicitaxis, mototaxis', $tierraSubcategorias['movil']['bicicletas, bicitaxis, mototaxis'], 'color:#a72525'])
+            ->addRow(['brigadas', $tierraSubcategorias['movil']['brigadas'], 'color:#a74525'])
+            ->addRow(['metro', $tierraSubcategorias['movil']['metro'], 'color:#a76625'])
+            ->addRow(['perifoneo', $tierraSubcategorias['movil']['perifoneo'], 'color:#25A727'])
+            ->addRow(['transporte publico', $tierraSubcategorias['movil']['transporte publico'], 'color:#a76625'])
+            ->addRow(['vehiculos particulares', $tierraSubcategorias['movil']['vehiculos particulares'], 'color:#a76625'])
+            ->addRow(['vehiculos publicitarios', $tierraSubcategorias['movil']['vehiculos publicitarios'], 'color:#a74525']);
+
+        $tierraSubcategoriaMovil= \Lava::DonutChart('Gasto en movil', $tierraSubcategoriaMovilGrafica, ['title' => 'Gasto en movil',
+            'titleTextStyle' => [
+                'fontName' => 'Arial',
+                'fontColor' => 'black',
+                'fontSize' => 30,
+            ],
+            'height' => 300]);
+
         return view('admin.dashboard.partido')
             ->with('partido', $request->partido)
             ->with('eventoGastoCategorias', $eventoGastoCategorias)
@@ -580,18 +796,27 @@ class UserController extends Controller{
             ->with('eventosSubcategoriaAnimacion', $eventosSubcategoriaAnimacion)
             ->with('eventosSubcategoriaEspectacular', $eventosSubcategoriaEspectacular)
             ->with('eventosSubcategoriaEstructura', $eventosSubcategoriaEstructura)
-            ->with('prueba', $subcategorias['produccion']);
+            ->with('eventosSubcategoriaProduccion', $eventosSubcategoriaProduccion)
+            ->with('eventosSubcategoriaTransporte', $eventosSubcategoriaTransporte)
+            ->with('eventosSubcategoriaUtilitario', $eventosSubcategoriaUtilitario)
+
+            ->with('tierraGastoCategorias', $tierraGastoCategorias)
+            ->with('tierraConteoEstados', $tierraConteoEstados)
+            ->with('tierraGastoEstados', $tierraGastoEstados)
+            ->with('tierraSubcategoriaMovil', $tierraSubcategoriaMovil)
+            ->with('tierraSubcategoriaFija', $tierraSubcategoriaFija)
+            ->with('prueba', $tierraSubcategorias);
     }
 
     function eventoCategoriasGasto($partido){
         $gasto = array( 'estructura' => 0, 'animacion' => 0, 'transporte' => 0, 'produccion' => 0, 'espectacular' => 0, 'utilitario' => 0);
         try{
-            $categorias = FiltradoEventos::project(['estructura.subcategoria' => 1, 'estructura.precio' => 1,
-                                                    'espectacular.subcategoria' => 1, 'espectacular.precio' => 1,
-                                                    'utilitario.subcategoria' => 1, 'utilitario.precio' => 1,
-                                                    'transporte.subcategoria' => 1, 'transporte.precio' => 1,
-                                                    'produccion.subcategoria' => 1, 'produccion.precio' => 1,
-                                                    'animacion.subcategoria' => 1, 'animacion.precio' => 1,])->where('partido', 'regex', $partido)->get();
+            $categorias = FiltradoEventos::project(['estructura.precio' => 1,
+                                                    'espectacular.precio' => 1,
+                                                    'utilitario.precio' => 1,
+                                                    'transporte.precio' => 1,
+                                                    'produccion.precio' => 1,
+                                                    'animacion.precio' => 1,])->where('partido', 'regex', $partido)->get();
             foreach ($categorias as $categoria){
                 if(isset($categoria['estructura'])) {
                     foreach ($categoria['estructura'] as $subcategorias) {
@@ -647,8 +872,10 @@ class UserController extends Controller{
                 ->get();
 
             foreach ($gastos as $gasto){
-                $arrayEstados[$gasto['estado']]['gasto'] += $gasto['precio'];
-                $arrayEstados[$gasto['estado']]['cantidad'] += 1;
+                if(isset($arrayEstados[$gasto['estado']])) {
+                    $arrayEstados[$gasto['estado']]['gasto'] += $gasto['precio'];
+                    $arrayEstados[$gasto['estado']]['cantidad'] += 1;
+                }
             }
         } catch (ModelNotFoundException $e) {
             return $arrayEstados;
@@ -780,6 +1007,100 @@ class UserController extends Controller{
                             $gasto['animacion'][$subcategorias['subcategoria']] += $subcategorias['precio'];
                         }
                     }
+                }
+            }
+        } catch (ModelNotFoundException $e) {
+            return $gasto;
+        }
+
+        return  $gasto;
+    }
+
+    function tierraCategoriasGasto($partido){
+        $gasto = array( 'movil' => 0, 'fija' => 0);
+        try{
+            $categorias = FiltradoTierra::project(['categoria' => 1, 'precio' => 1])->where('partido', 'regex', $partido)->get();
+            foreach ($categorias as $categoria){
+                if($categoria['categoria'] == 'movil') {
+                    $gasto['movil'] += $categoria['precio'];
+                }
+                if($categoria['categoria'] == 'fija') {
+                    $gasto['fija'] += $categoria['precio'];
+                }
+            }
+        } catch (ModelNotFoundException $e) {
+            return $gasto;
+        }
+
+        return $gasto;
+    }
+
+    function tierraEstados($partido, $estados){
+
+        $arrayEstados = array( 'CIUDAD DE MEXICO' => array('gasto' => 0, 'cantidad' =>  0),
+            'GUERRERO' => array('gasto' => 0, 'cantidad' =>  0),
+            'MORELOS' => array('gasto' => 0, 'cantidad' =>  0),
+            'PUEBLA' => array('gasto' => 0, 'cantidad' =>  0),
+            'TLAXCALA' => array('gasto' => 0, 'cantidad' =>  0));
+
+        try{
+            $gastos = FiltradoTierra::project(['precio' => 1, 'estado' => 1])
+                ->where('partido', 'regex', $partido)
+                ->where('circunscripcion', 4)
+                ->where('estado', 'regex', $estados)
+                ->get();
+
+            foreach ($gastos as $gasto){
+                if(isset($arrayEstados[$gasto['estado']])){
+                    $arrayEstados[$gasto['estado']]['gasto'] += $gasto['precio'];
+                    $arrayEstados[$gasto['estado']]['cantidad'] += 1;
+                }
+            }
+        } catch (ModelNotFoundException $e) {
+            return $arrayEstados;
+        }
+
+        return $arrayEstados;
+    }
+
+    function tierraSubcategoriasGasto($partido){
+        $gasto = array(
+            'movil' =>['bicicletas, bicitaxis, mototaxis' => 0,
+                'brigadas' => 0,
+                'metro' => 0,
+                'perifoneo' => 0,
+                'transporte publico' => 0,
+                'vehiculos particulares' => 0,
+                'vehiculos publicitarios' => 0],
+            'fija'=>[ 'bardas' => 0,
+                'buzones' => 0,
+                'caja de luz' => 0,
+                'carteles' => 0,
+                'espectaculares' => 0,
+                'espectaculares de pantallas digitales' => 0,
+                'kioscos' => 0,
+                'lonas' => 0,
+                'mantas (igual o mayor a 12 mts)' => 0,
+                'mantas (menores a 12 mts)' => 0,
+                'marquesinas' => 0,
+                'muebles urbanos' => 0,
+                'pantallas fijas' => 0,
+                'parabuses' => 0,
+                'pendones' => 0,
+                'propaganda en columnas' => 0,
+                'puente' => 0,
+                'valla digital' => 0,
+                'volantes' => 0, ]
+        );
+
+        try{
+            $categorias = FiltradoTierra::project(['categoria' => 1, 'subcategoria' => 1, 'precio' => 1])->where('partido', 'regex', $partido)->get();
+            foreach ($categorias as $categoria){
+                if($categoria['categoria'] == 'movil' && isset($gasto['movil'][$categoria['subcategoria']])) {
+                    $gasto['movil'][$categoria['subcategoria']] += $categoria['precio'];
+                }
+                if($categoria['categoria'] == 'fija' && isset($gasto['fija'][$categoria['subcategoria']])) {
+                    $gasto['fija'][$categoria['subcategoria']] += $categoria['precio'];
                 }
             }
         } catch (ModelNotFoundException $e) {
